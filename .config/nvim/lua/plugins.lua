@@ -31,6 +31,7 @@ require("mini.pairs").setup()
 require("mini.hipatterns").setup()
 require("mini.trailspace").setup()
 
+require("liveserver").setup()
 
 require("lualine").setup({
   sections = {
