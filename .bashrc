@@ -180,17 +180,13 @@ PS1+="\[${bold}\]\n"                                                    # newlin
 PS1+="\[${blue}\]╭─(\W)"                                                # working directory full path
 PS1+="\$(prompt_git \"\[${white}\] on \[${violet}\]\" \"\[${blue}\]\")" # Git repository details
 PS1+="\n"
-PS1+="╰─§ \[${reset}\]" #
+PS1+="╰─› \[${reset}\]" #
 export PS1
 
 PS2="\[${yellow}\]› \[${reset}\]"
 export PS2
 
 # Aliases
-alias cls='clear'
-alias c='clear'
-alias q='exit'
-
 # Navigation
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -214,91 +210,10 @@ else
   alias ltr='ls -ltr'
 fi
 
-# Git
-alias g='git'
-alias gs='git status'
-alias ga='git add .'
-alias gc='git commit -m'
-alias gp='git push'
-alias gl='git pull'
-alias gb='git branch'
-alias gco='git checkout'
-
 # System
 alias update='sudo apt update && sudo apt upgrade'
-alias htop='htop'
-
-# Docker
-alias d='docker'
-alias dps='docker ps'
-alias dcu='docker compose up'
-alias dcd='docker compose down'
-
-# NPM/Yarn
-alias ni='npm install'
-alias nr='npm run'
-alias nid='npm install --save-dev'
-alias nu='npm update'
-alias ys='yarn start'
-alias yb='yarn build'
-
 # Neovim
 alias v='nvim'
-alias vim='nvim'
-
-# Misc
-alias pingg='ping google.com'
-alias path='echo $PATH'
-alias ip='curl ifconfig.me'
-
 
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH"
-
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file"
-done
-unset file
-
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob
-
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend
-
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell
-
-# Enable some Bash 4 features when possible:
-# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
-# * Recursive globbing, e.g. `echo **/*.txt`
-for option in autocd globstar; do
-	shopt -s "$option" 2>/dev/null
-done
-
-# Add tab completion for many Bash commands
-if which brew &>/dev/null && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
-	# Ensure existing Homebrew v1 completions continue to work
-	export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d"
-	source "$(brew --prefix)/etc/profile.d/bash_completion.sh"
-elif [ -f /etc/bash_completion ]; then
-	source /etc/bash_completion
-fi
-
-# Enable tab completion for `g` by marking it as an alias for `git`
-if type _git &>/dev/null; then
-	complete -o default -o nospace -F _git g
-fi
-
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
-
-# Add tab completion for `defaults read|write NSGlobalDomain`
-# You could just use `-g` instead, but I like being explicit
-complete -W "NSGlobalDomain" defaults
-
-# Add `killall` tab completion for common apps
-complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
