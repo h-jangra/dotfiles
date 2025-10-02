@@ -1,29 +1,31 @@
-theme = "bogster"
+theme = "onedark"
 
 [editor]
-scrolloff = 999
-true-color = true
 line-number = "relative"
+true-color = true
+rulers = [80,120]
+color-modes = true
 bufferline = "multiple"
-cursorline = true
-auto-save = true
+popup-border = "all"
+jump-label-alphabet = "jfkdls;aurieowpqnvmcxz"
+undercurl = true
+auto-completion = true
 soft-wrap.enable = true
-middle-click-paste = false
-rulers = [80, 100]
-idle-timeout = 0
-completion-trigger-len = 1
 
 [editor.lsp]
 display-messages = true
 display-inlay-hints = true
 
 [editor.statusline]
-left = ["mode", "spinner", "file-name"]
-right = ["diagnostics", "version-control", "selections", "position", "total-line-numbers"]
+left = ["mode", "spinner", "file-name" ]
+right = ["diagnostics", "separator", "workspace-diagnostics", "selections", "position", "total-line-numbers"]
+separator = "│"
+mode.normal = "N"
+mode.insert = "I"
+mode.select = "S"
 
 [editor.cursor-shape]
 insert = "bar"
-normal = "block"
 select = "underline"
 
 [keys.insert]
@@ -36,9 +38,11 @@ A-l = "move_char_right"
 A-k = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
 
 [keys.normal]
-"A-j" = [ "extend_to_line_bounds", "delete_selection", "paste_after" ]
-A-k = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
+ret = "goto_word"
+A-j = ["extend_to_line_bounds","delete_selection","paste_after","select_mode", "goto_line_start", "normal_mode"]
+A-k = [ "extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before", "flip_selections"]
 K = "hover"
+g = { a = "code_action" }
 S-right = "extend_char_right"
 S-left = "extend_char_left"
 S-up = "extend_line_up"
@@ -62,15 +66,6 @@ C-o = "flip_selections"
 y = ["yank", ":clipboard-yank"]
 G = ["goto_last_line", "goto_line_end"]
 C-o = "flip_selections"
-
-[editor.whitespace]
-[editor.whitespace.render]
-nbsp = "all"
-tab = "all"
-
-[editor.whitespace.characters]
-nbsp = "⍽"
-tab = "▏"
 
 [editor.indent-guides]
 render = true
