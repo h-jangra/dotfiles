@@ -12,6 +12,7 @@ bufferline = "multiple"
 popup-border = "all"
 jump-label-alphabet = "jfkdls;aurieowpqnvmcxz"
 gutters = ["diff", "diagnostics", "line-numbers", "spacer"]
+# whitespace.enable = "all"
 
 [editor.lsp]
 display-messages = true
@@ -65,6 +66,7 @@ C-right = [ "move_next_word_start", "move_char_left", "move_char_right" ]
 C-left = [ "move_prev_word_start", "move_char_left", "move_char_right" ]
 A-j = ["extend_to_line_bounds","delete_selection","paste_after","select_mode", "goto_line_start", "normal_mode"]
 A-k = [ "extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before", "flip_selections"]
+C-e = [ ':sh rm -f /tmp/_yazi_hx', ':insert-output yazi %{buffer_name} --chooser-file=/tmp/_yazi_hx', ':open /tmp/_yazi_hx', ':redraw' ]
 
 [keys.select]
 y = ["yank", ":clipboard-yank"]
