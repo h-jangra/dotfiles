@@ -21,7 +21,7 @@ cgit() {
   local message="Updated $file"
 
   # Get current branch
-  local branch=$(git rev-parse --abbrev-ref HEAD)
+  local branch=$(config rev-parse --abbrev-ref HEAD)
 
   # Colors
   local CYAN="\e[36m"
