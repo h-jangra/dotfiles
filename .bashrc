@@ -190,13 +190,13 @@ alias dl='cd ~/Downloads'
 if command -v exa >/dev/null 2>&1; then
   alias l='exa --classify --icons'
   alias la='exa -a --icons'
-  alias ll='exa -alF --icons'
+  alias ll='exa -ahlF --icons'
   alias lt='exa -lT --icons'
   alias tree='exa -T --icons'
 else
   alias l='ls -CF'
-  alias la='ls -A'
-  alias ll='ls -alF'
+  alias la='ls -Ah'
+  alias ll='ls -ahlF'
   alias lt='ls -lt'
   alias ltr='ls -ltr'
 fi
