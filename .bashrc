@@ -5,68 +5,55 @@ config config status.showUntrackedFiles no
 
 cgit() {
   if [ $# -eq 0 ]; then
-    echo "Usage: cgit -f <file> [-m <message>] [-b $br]"
+    echo "Usage: cgit <file>"
     return
   fi
 
-  local message=""
-  local branch=""
-  local file=""
+  local file="$1"
 
-  OPTIND=1
-  while getopts ":f:m:b:" opt; do
-    case $opt in
-      f) file="$OPTARG" ;;
-      m) message="$OPTARG" ;;
-      b) branch="$OPTARG" ;;
-      *)
-        echo "Usage: cgit -f <file> [-m <message>] [-b <branch>]"
-        return 1
-        ;;
-    esac
-  done
-
+  # Check if file is provided
   if [[ -z "$file" ]]; then
-    echo "Error: -f <file> is required."
+    echo "Error: filename is required."
     return 1
   fi
 
-  shift $((OPTIND - 1))
+  # Default message
+  local message="Updated $file"
 
-  if [ -z "$message" ]; then
-    message="Updated $file"
-  fi
+  # Get current branch
+  local branch=$(git rev-parse --abbrev-ref HEAD)
 
-  if [ -z "$branch" ]; then
-    branch=$(config rev-parse --abbrev-ref HEAD)
-  fi
+  # Colors
+  local CYAN="\e[36m"
+  local YELLOW="\e[33m"
+  local GREEN="\e[32m"
+  local BOLD="\e[1m"
+  local RESET="\e[0m"
 
-  GREEN="\e[32m"
-  YELLOW="\e[33m"
-  CYAN="\e[36m"
-  BOLD="\e[1m"
-  RESET="\e[0m"
+  # Prepare output
+  local col1="📂File: $file"
+  local col2="📝Message: $message"
+  local col3="🌿Branch: $branch"
 
-  col1="📂File: $file"
-  col2="📝Message: $message"
-  col3="🌿Branch: $branch"
+  local w1=${#col1}
+  local w2=${#col2}
+  local w3=${#col3}
 
-  w1=${#col1}
-  w2=${#col2}
-  w3=${#col3}
-
+  # Draw header
   printf "${CYAN}┌─"; printf '─%.0s' $(seq 1 $w1); printf '┬'
   printf '─%.0s' $(seq 1 $w2); printf '─┬'
   printf '─%.0s' $(seq 1 $w3); printf "─┐${RESET}\n"
 
+  # Print values
   printf "${CYAN}│${RESET}${YELLOW}${BOLD}%-*s${RESET}${CYAN}│${RESET}%-*s${RESET}${CYAN}│${RESET}${GREEN}%-*s${RESET}${CYAN}│${RESET}\n" \
   $w1 "$col1" $w2 "$col2" $w3 "$col3"
 
+  # Draw footer
   printf "${CYAN}└─"; printf '─%.0s' $(seq 1 $w1); printf '┴'
   printf '─%.0s' $(seq 1 $w2); printf '─┴'
   printf '─%.0s' $(seq 1 $w3); printf "─┘${RESET}\n"
 
-
+  # Commit and push
   config add "$file" &&
   config commit -m "$message" &&
   config push origin "$branch"
