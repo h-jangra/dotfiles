@@ -1,4 +1,4 @@
-theme = "jetbrains_dark"
+theme = "bogster"
 
 [editor]
 scrolloff = 999
@@ -31,36 +31,37 @@ j = { k = "normal_mode" }
 k = { j = "normal_mode" }
 C-s = [":write", "normal_mode"]
 A-h = "move_char_left"
-A-j = "move_line_down"
-A-k = "move_line_up"
 A-l = "move_char_right"
+"A-j" = [ "extend_to_line_bounds", "delete_selection", "paste_after" ]
+A-k = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
 
 [keys.normal]
-A-j = "move_line_down"
+"A-j" = [ "extend_to_line_bounds", "delete_selection", "paste_after" ]
+A-k = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
 K = "hover"
-A-k = "keep_selections"
-S-left = "extend_char_left"
 S-right = "extend_char_right"
+S-left = "extend_char_left"
 S-up = "extend_line_up"
 S-down = "extend_line_down"
 space = { x = ":buffer-close"}
-C-left = [ "move_prev_word_start", "move_char_left", "move_char_right" ]
 C-right = [ "move_next_word_start", "move_char_left", "move_char_right" ]
+C-left = [ "move_prev_word_start", "move_char_left", "move_char_right" ]
 C-s = ["save_selection", ":w"]
 C-q = ":quit!"
 R = ":config-reload"
-C-o = ":config-open"
+C-f = ":config-open"
 "$" = "extend_to_line_end"
 "^" = "extend_to_line_start"
-G = "goto_last_line"
-C-C = ":clipboard-yank"
 tab = ":buffer-next"
 S-tab = ":buffer-previous"
-C-X = ":bc!"
 y = ["yank", ":clipboard-yank"]
+G = ["goto_last_line", "goto_line_end"]
+C-o = "flip_selections"
 
 [keys.select]
 y = ["yank", ":clipboard-yank"]
+G = ["goto_last_line", "goto_line_end"]
+C-o = "flip_selections"
 
 [editor.whitespace]
 [editor.whitespace.render]
