@@ -1,16 +1,16 @@
 theme = "catppuccin_mocha"
 
 [editor]
-line-number = "relative"
+# rulers = [80]
+undercurl = true
 true-color = true
-rulers = [80,120]
 color-modes = true
+auto-completion = true
+soft-wrap.enable = true
+line-number = "relative"
 bufferline = "multiple"
 popup-border = "all"
 jump-label-alphabet = "jfkdls;aurieowpqnvmcxz"
-undercurl = true
-auto-completion = true
-soft-wrap.enable = true
 gutters = ["diff", "diagnostics", "line-numbers", "spacer"]
 
 [editor.lsp]
@@ -19,7 +19,7 @@ display-inlay-hints = true
 
 [editor.statusline]
 left = ["mode", "spinner", "file-name", "version-control" ]
-right = ["diagnostics", "separator", "workspace-diagnostics", "selections", "position", "total-line-numbers"]
+right = ["diagnostics", "workspace-diagnostics", "selections", "position", "total-line-numbers"]
 separator = "│"
 mode.normal = "N"
 mode.insert = "I"
@@ -30,41 +30,41 @@ insert = "bar"
 select = "underline"
 
 [keys.insert]
+A-h = "move_char_left"
+A-l = "move_char_right"
 j = { k = "normal_mode" }
 k = { j = "normal_mode" }
 C-s = [":write", "normal_mode"]
-A-h = "move_char_left"
-A-l = "move_char_right"
-"A-j" = [ "extend_to_line_bounds", "delete_selection", "paste_after" ]
+A-j = [ "extend_to_line_bounds", "delete_selection", "paste_after" ]
 A-k = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
 
 [keys.normal]
+C-q = ":quit!"
+C-o = "flip_selections"
+C-s = ["save_selection", ":w"]
+C-f = ":config-open"
+R = ":config-reload"
 K = "hover"
 ret = "goto_word"
+tab = ":buffer-next"
+S-tab = ":buffer-previous"
 g = { a = "code_action" }
 S-left = "extend_char_left"
+"}" = "goto_next_paragraph"
+"{" = "goto_prev_paragraph"
 S-right = "extend_char_right"
 S-up = "extend_line_up"
 S-down = "extend_line_down"
-esc = ["collapse_selection", "keep_primary_selection"]
-A-j = ["extend_to_line_bounds","delete_selection","paste_after","select_mode", "goto_line_start", "normal_mode"]
-A-k = [ "extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before", "flip_selections"]
 space = { x = ":buffer-close"}
-C-right = [ "move_next_word_start", "move_char_left", "move_char_right" ]
-C-left = [ "move_prev_word_start", "move_char_left", "move_char_right" ]
-C-s = ["save_selection", ":w"]
-C-q = ":quit!"
-R = ":config-reload"
-C-f = ":config-open"
 "$" = "extend_to_line_end"
 "^" = "extend_to_line_start"
-tab = ":buffer-next"
-S-tab = ":buffer-previous"
 y = ["yank", ":clipboard-yank"]
 G = ["goto_last_line", "goto_line_end"]
-C-o = "flip_selections"
-"}" = "goto_next_paragraph"
-"{" = "goto_prev_paragraph"
+esc = ["collapse_selection", "keep_primary_selection"]
+C-right = [ "move_next_word_start", "move_char_left", "move_char_right" ]
+C-left = [ "move_prev_word_start", "move_char_left", "move_char_right" ]
+A-j = ["extend_to_line_bounds","delete_selection","paste_after","select_mode", "goto_line_start", "normal_mode"]
+A-k = [ "extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before", "flip_selections"]
 
 [keys.select]
 y = ["yank", ":clipboard-yank"]
