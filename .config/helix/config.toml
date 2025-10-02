@@ -1,0 +1,77 @@
+theme = "jetbrains_dark"
+
+[editor]
+scrolloff = 999
+true-color = true
+line-number = "relative"
+bufferline = "multiple"
+cursorline = true
+auto-save = true
+soft-wrap.enable = true
+middle-click-paste = false
+rulers = [80, 100]
+idle-timeout = 0
+completion-trigger-len = 1
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name"]
+right = ["diagnostics", "version-control", "selections", "position", "total-line-numbers"]
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[keys.insert]
+j = { k = "normal_mode" }
+k = { j = "normal_mode" }
+C-s = [":write", "normal_mode"]
+A-h = "move_char_left"
+A-j = "move_line_down"
+A-k = "move_line_up"
+A-l = "move_char_right"
+
+[keys.normal]
+A-j = "move_line_down"
+K = "hover"
+A-k = "keep_selections"
+S-left = "extend_char_left"
+S-right = "extend_char_right"
+S-up = "extend_line_up"
+S-down = "extend_line_down"
+space = { x = ":buffer-close"}
+C-left = [ "move_prev_word_start", "move_char_left", "move_char_right" ]
+C-right = [ "move_next_word_start", "move_char_left", "move_char_right" ]
+C-s = ["save_selection", ":w"]
+C-q = ":quit!"
+R = ":config-reload"
+C-o = ":config-open"
+"$" = "extend_to_line_end"
+"^" = "extend_to_line_start"
+G = "goto_last_line"
+C-C = ":clipboard-yank"
+tab = ":buffer-next"
+S-tab = ":buffer-previous"
+C-X = ":bc!"
+y = ["yank", ":clipboard-yank"]
+
+[keys.select]
+y = ["yank", ":clipboard-yank"]
+
+[editor.whitespace]
+[editor.whitespace.render]
+nbsp = "all"
+tab = "all"
+
+[editor.whitespace.characters]
+nbsp = "⍽"
+tab = "▏"
+
+[editor.indent-guides]
+render = true
+character = "|"
+skip-levels = 1

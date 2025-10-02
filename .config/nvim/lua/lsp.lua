@@ -1,7 +1,3 @@
-
--- lsp.lua
-
--- Check if a command exists on the system
 local function has_cmd(cmd)
   return vim.fn.executable(cmd) == 1
 end
