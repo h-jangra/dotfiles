@@ -1,54 +1,52 @@
 require("keymaps")
 require("plugins")
 require("autocmds")
-require("lsp")
-require("snippet").setup_keymap()
 
--- OPTIONS --
-vim.o.syntax = "ON"                  -- set syntax to ON
-vim.o.backup = false                 -- turn off backup file
-vim.o.writebackup = false            -- do not write backup
-vim.o.swapfile = false               -- turn off swapfile
-vim.o.undofile = true                -- set undo file
-vim.o.undodir = vim.fn.expand("~/.local/share/nvim/undodir")
-vim.o.updatetime = 300               -- decrease update time to improve snappiness
-vim.o.cursorline = true              -- set highlighted cursor line
-vim.o.autoread = true                -- re-read files in case they were edited outside of vim
-vim.o.autowrite = false              -- do not auto write file when changing buffers and such
-vim.o.compatible = false             -- turn off vi compatibility mode
-vim.o.number = true                  -- turn on line numbers
-vim.o.relativenumber = true          -- turn on relative line numbers
-vim.o.mouse = 'a'                    -- enable the mouse in all modes
-vim.o.ignorecase = true              -- enable case insensitive searching
-vim.o.smartcase = true               -- all searches are case insensitive unless there's a capital letter
-vim.o.smartindent = true             -- smart auto-indenting when starting a new line
-vim.o.hlsearch = false               -- disable all highlighted search results
-vim.o.incsearch = true               -- enable incremental searching
-vim.o.wrap = false                   -- enable text wrapping
-vim.o.tabstop = 4                    -- tabs=4spaces
-vim.o.shiftwidth = 4                 -- tabs=4spaces
-vim.o.expandtab = true               -- convert tabs to spaces
-vim.o.fileencoding = "utf-8"         -- encoding set to utf-8
-vim.o.pumheight = 10                 -- number of items in popup menu
-vim.o.laststatus = 2                 -- always show statusline
-vim.o.signcolumn = "auto"            --  only use sign column when there is something to put there
-vim.o.colorcolumn = "80"             -- set color column to 80 characters
-vim.o.showcmd = true                 -- show the command
-vim.o.showmatch = true               -- highlight matching brackets
-vim.o.cmdheight = 1                  -- set command line height
-vim.o.showmode = false               -- do not show the mode since it's already in the status line
-vim.o.scrolloff = 8                  -- scroll page when cursor is 8 lines from top/bottom
-vim.o.sidescrolloff = 8              -- scroll page when cursor is 8 spaces from left/right
-vim.o.clipboard = "unnamedplus"      -- use the system clipboard
-vim.o.wildmenu = true                -- use the wild menu
-vim.o.wildmode = "longest:full,full" -- set wile menu options
-vim.o.path = "+=**"                  -- search files recursively
-vim.o.splitbelow = true              -- split go below
-vim.o.splitright = true              -- vertical split to the right
-vim.o.termguicolors = true           -- terminal gui colors
-vim.o.cmdwinheight = 10              -- cmd window can only take up this many lines
-vim.opt.guifont = { "JetBrainsMono Nerd Font", ":h14" }
+-- Enable syntax highlighting
+vim.o.syntax = "on"
+
+-- File backups & undo
+vim.o.backup = false
+vim.o.writebackup = false
+vim.o.swapfile = false
+vim.o.undofile = true
+vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
+
+-- UI settings
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.termguicolors = true
+vim.o.laststatus = 2
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 8
+vim.o.wrap = false
+
+-- Searching
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.hlsearch = false
+vim.o.incsearch = true
+
+-- Tabs & indentation
+vim.o.expandtab = true
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+vim.o.smartindent = true
+
+-- Mouse & clipboard
+vim.o.mouse = "a"
+vim.o.clipboard = "unnamedplus"
+
+-- Splits
+vim.o.splitbelow = true
+vim.o.splitright = true
+
+-- Completion
 vim.opt.completeopt = { "menuone", "noselect" }
+
+-- Performance
+vim.o.updatetime = 300
+vim.o.autoread = true
 
 vim.cmd("filetype plugin on")
 vim.cmd("colorscheme vague")
@@ -57,3 +55,90 @@ require("vim._extui").enable({})
 vim.g.netrw_banner = 0
 vim.g.netrw_browse_split = 0
 vim.g.netrw_liststyle = 3
+
+-- Diagnostics
+vim.diagnostic.config({
+  virtual_lines = { current_line = true },
+})
+
+-- Copy current line diagnostics to clipboard
+vim.keymap.set("n", "<leader>cd", function()
+  local bufnr, lnum = 0, vim.api.nvim_win_get_cursor(0)[1] - 1
+  local diags = vim.diagnostic.get(bufnr, { lnum = lnum })
+  if #diags == 0 then
+    return vim.notify("No diagnostics", vim.log.levels.INFO)
+  end
+  vim.fn.setreg("+", table.concat(vim.tbl_map(function(d) return d.message end, diags), "\n"))
+  vim.notify("Diagnostics copied", vim.log.levels.INFO)
+end, { desc = "Copy current line diagnostics" })
+
+
+-- =======================
+-- Statusline
+-- =======================
+
+-- Define colors for modes
+local mode_colors = {
+  n     = { fg = "#ffffff", bg = "#005f87", name = "NORMAL" },
+  i     = { fg = "#ffffff", bg = "#5f8700", name = "INSERT" },
+  v     = { fg = "#ffffff", bg = "#af005f", name = "VISUAL" },
+  V     = { fg = "#ffffff", bg = "#af005f", name = "V-LINE" },
+  [""] = { fg = "#ffffff", bg = "#af005f", name = "V-BLOCK" },
+  R     = { fg = "#ffffff", bg = "#d70000", name = "REPLACE" },
+  c     = { fg = "#000000", bg = "#ffd700", name = "COMMAND" },
+  t     = { fg = "#000000", bg = "#ffaf00", name = "TERMINAL" },
+}
+
+-- Setup highlights dynamically
+local function set_hl(name, fg, bg)
+  vim.cmd(string.format("highlight %s guifg=%s guibg=%s gui=bold", name, fg, bg))
+end
+
+-- Function to generate statusline
+function _G.my_statusline()
+  local mode = vim.api.nvim_get_mode().mode
+  local m = mode_colors[mode] or { fg = "#ffffff", bg = "#444444", name = mode }
+  set_hl("StatusLineMode", m.fg, m.bg)
+
+  local file_icon = "" -- default file icon
+  local file_name = vim.fn.expand('%:t') ~= "" and vim.fn.expand('%:t') or "NoName"
+  local file_type = vim.bo.filetype ~= "" and vim.bo.filetype or "none"
+  local file_encoding = vim.bo.fileencoding ~= "" and vim.bo.fileencoding or vim.o.encoding
+
+  -- Change icon for known filetypes
+  local ft_icons = {
+    lua = "",
+    javascript = "",
+    typescript = "",
+    json = "",
+    html = "",
+    css = "",
+    markdown = "",
+    python = "",
+    java = "",
+    toml = "",
+    sh = "",
+    typst = "",
+  }
+  if ft_icons[file_type] then
+    file_icon = ft_icons[file_type]
+  end
+
+  local line = vim.fn.line('.')
+  local col = vim.fn.col('.')
+  local total = vim.fn.line('$')
+  local percent = math.floor((line / total) * 100)
+
+  return table.concat({
+    "%#StatusLineMode#",  -- highlight for mode
+    " " .. m.name .. " ", -- mode name
+    "%#StatusLine#",      -- reset to default statusline colors
+    "  " .. file_icon .. " " .. file_name .. " ",
+    -- "| " .. file_type .. " [" .. file_encoding .. "] ",
+    "%=",
+    string.format(" %d:%d  %d ", line, col, total),
+  })
+end
+
+-- Always show statusline
+vim.o.statusline = "%!v:lua.my_statusline()"

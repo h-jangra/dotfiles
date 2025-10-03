@@ -8,7 +8,6 @@ vim.pack.add({
   { src = "https://github.com/folke/which-key.nvim" },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/neovim/nvim-lspconfig" },
-  { src = "https://github.com/nvim-lualine/lualine.nvim" },
   { src = "https://github.com/nvim-mini/mini.nvim" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/vague2k/vague.nvim" },
@@ -17,10 +16,11 @@ vim.pack.add({
   { src = "https://github.com/voldikss/vim-floaterm" },
 })
 
-require("nvim-treesitter.configs").setup({ ensure_installed = { "typescript", "javascript" }, highlight = { enable = true } })
+-- require("nvim-treesitter.configs").setup({ ensure_installed = { "typescript", "javascript" }, highlight = { enable = true } })
 require("vague").setup({ transparent = true })
 require("render-markdown").setup()
 require("mason").setup()
+require("mason-lspconfig").setup()
 require("flash").setup()
 require("which-key").setup()
 require("mini.surround").setup()
@@ -32,17 +32,6 @@ require("mini.hipatterns").setup()
 require("mini.trailspace").setup()
 
 require("liveserver").setup()
-
-require("lualine").setup({
-  sections = {
-    lualine_a = { function()
-      return vim.fn.mode():upper()
-    end, },
-    lualine_x = { function()
-      return tostring(vim.fn.line("$")) .. " "
-    end, },
-  }
-})
 
 require("blink.cmp").setup({
   keymap = { preset = "default", ["<CR>"] = { "accept", "fallback" }, },
