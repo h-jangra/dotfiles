@@ -16,7 +16,7 @@ vim.pack.add({
   { src = "https://github.com/voldikss/vim-floaterm" },
 })
 
--- require("nvim-treesitter.configs").setup({ ensure_installed = { "typescript", "javascript" }, highlight = { enable = true } })
+require("nvim-treesitter.configs").setup({ ensure_installed = { "typescript", "javascript" }, highlight = { enable = true } })
 require("vague").setup({ transparent = true })
 require("render-markdown").setup()
 require("mason").setup()

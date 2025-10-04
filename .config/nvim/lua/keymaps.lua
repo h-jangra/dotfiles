@@ -1,116 +1,85 @@
 vim.g.mapleader = " "
 
-local utils = require("autocmds")
+local map = vim.keymap.set
+local opts = { noremap = true, silent = true }
 
-local keymaps = {
-  n = {
+-- NORMAL MODE
 
-    ["<esc>"] = "<cmd>noh<cr>",
-    ["<leader>o"] = "<cmd>update<cr> :source<cr>",
-    ["<leader>q"] = "<cmd>quit<cr>",
+map("n", "<esc>", "<cmd>noh<cr>", opts)
 
-    -- Save file
-    ["<leader>w"] = { "<Esc><cmd>w<CR><cmd>lua vim.lsp.buf.format({ async = true })<CR>",
-      { desc = "Save & Format file" } },
-    ["<C-s>"] = "<cmd>write<cr>",
+-- Save & Source
+map("n", "<leader>o", "<cmd>update<cr> :source<cr>", opts)
+map("n", "<leader>q", "<cmd>quit<cr>", opts)
+map("n", "<leader>w", "<Esc><cmd>w<CR><cmd>lua vim.lsp.buf.format({ async = true })<CR>", { desc = "Save & Format" })
+map("n", "<C-s>", "<cmd>write<cr>", opts)
 
-    -- Move b/w windows
-    ["<C-h>"] = "<C-w>h",
-    -- ["<C-j>"] = "<C-w>j",
-    ["<C-k>"] = "<C-w>k",
-    ["<C-l>"] = "<C-w>l",
+-- Window navigation
+map("n", "<C-h>", "<C-w>h", opts)
+map("n", "<C-k>", "<C-w>k", opts)
+map("n", "<C-l>", "<C-w>l", opts)
 
-    -- search + scroll
-    ["n"] = "nzzzv",
-    ["N"] = "Nzzzv",
-    ["<C-d>"] = "<C-d>zz",
-    ["<C-u>"] = "<C-u>zz",
+-- Search + scroll (center cursor)
+map("n", "n", "nzzzv", opts)
+map("n", "N", "Nzzzv", opts)
+map("n", "<C-d>", "<C-d>zz", opts)
+map("n", "<C-u>", "<C-u>zz", opts)
 
-    -- move lines
-    ["<A-k>"] = ":m .-2<CR>==",
-    ["<A-j>"] = ":m .+1<CR>==",
+-- Move lines
+map("n", "<A-k>", ":m .-2<CR>==", opts)
+map("n", "<A-j>", ":m .+1<CR>==", opts)
 
-    -- select all / copy
-    ["<leader>a"] = "ggVG",
-    ["<c-c>"] = "<cmd>%y+<cr>",
+-- Select all / copy
+map("n", "<leader>a", "ggVG", opts)
+map("n", "<c-c>", "<cmd>%y+<cr>", opts)
+map("n", "x", '"_x', opts)
 
-    ["x"] = '"_x',
+-- Buffers
+map("n", "<tab>", "<cmd>bnext<cr>", opts)
+map("n", "<s-tab>", "<cmd>bprevious<cr>", opts)
+map("n", "<leader>x", "<cmd>bdelete!<cr>", opts)
 
-    -- buffers
-    ["<tab>"] = "<cmd>bnext<cr>",
-    ["<s-tab>"] = "<cmd>bprevious<cr>",
-    ["<leader>x"] = "<cmd>bdelete!<cr>",
+-- Yank & paste
+map("n", "<leader>y", 'm`"0yy"0p``', opts)
 
-    -- yank
-    ["<leader>y"] = 'm`"0yy"0p``',
+-- Diagnostics
+map("n", "<C-j>", function()
+  vim.diagnostic.jump({ count = 1 })
+end, opts)
 
-    -- diagnostics
-    ["<C-j>"] = {
-      function()
-        vim.diagnostic.jump({ count = 1 })
-      end,
-    },
+-- Snacks / Pickers
+map("n", "<leader><leader>", "<cmd>lua Snacks.picker.files()<cr>", opts)
+map("n", "<leader>e", "<cmd>lua Snacks.explorer()<cr>", opts)
+map("n", "<leader>sp", "<cmd>lua Snacks.picker()<cr>", opts)
+map("n", "<leader>sw", function() Snacks.picker.grep() end, { desc = "Grep Word" })
+map("n", "<leader>n", "<cmd>lua Snacks.picker.notifications()<cr>", opts)
 
-    -- snacks / mini / lsp
-    ["<leader><leader>"] = "<cmd>lua Snacks.picker.files()<cr>",
-    -- ["<leader>h"] = "<cmd>Pick help<cr>",
-    ["<leader>e"] = "<cmd>lua Snacks.explorer()<cr>",
-    ["<leader>sp"] = "<cmd>lua Snacks.picker()<cr>",
-    ["<leader>sw"] = {
-      function()
-        Snacks.picker.grep()
-      end,
-      { desc = "Grep Word" },
-    },
-    -- ["<leader>fe"] = "<cmd>lua MiniFiles.open()<cr>",
-    ["<leader>lf"] = { vim.lsp.buf.format, { desc = "Format" } },
-    ["<leader>li"] = { "g=G``", { desc = "Format" } },
+-- LSP
+map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format" })
+map("n", "<leader>li", "g=G``", { desc = "Format" })
 
-    -- find & replace
-    ["<leader>fr"] = {
-      function()
-        local cmd = string.format("%%s/%s/%s/gc", vim.fn.input("find: "), vim.fn.input("replace with: "))
-        vim.cmd(cmd)
-      end,
-      { desc = "Find and replace a word" },
-    },
+-- Find & replace
+map("n", "<leader>fr", function()
+  local find = vim.fn.input("Find: ")
+  local replace = vim.fn.input("Replace with: ")
+  vim.cmd(string.format("%%s/%s/%s/gc", find, replace))
+end, { desc = "Find and replace" })
 
-    ["<leader>fc"] = "<cmd>e" .. vim.fn.stdpath("config") .. "<cr>",
-    ["<leader>n"] = "<cmd>lua Snacks.picker.notifications()<cr>"
-  },
+map("n", "<leader>fc", function()
+  vim.cmd("e " .. vim.fn.stdpath("config"))
+end, { desc = "Open config" })
 
-  i = {
-    ["<A-k>"] = "<esc>:m .-2<CR>==gi",
-    ["<A-j>"] = "<esc>:m .+1<CR>==gi",
+-- INSERT MODE
+map("i", "<A-k>", "<esc>:m .-2<CR>==gi", opts)
+map("i", "<A-j>", "<esc>:m .+1<CR>==gi", opts)
+map("i", "jk", "<esc>", opts)
+map("i", "kj", "<esc>", opts)
+map("i", "<C-s>", "<Esc><cmd>w<CR><cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
 
-    ["jk"] = "<esc>",
-    ["kj"] = "<esc>",
-    ["<C-s>"] = "<Esc><cmd>w<CR><cmd>lua vim.lsp.buf.format({ async = true })<CR>",
-  },
+-- VISUAL MODE
+map("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
+map("v", "<A-j>", ":m '>+1<CR>gv=gv", opts)
+map("v", "<leader>y", '"1y`>"0p', opts)
+map("v", "x", '"_x', opts)
+map("v", "c", '"_c', opts)
 
-  v = {
-    ["<A-k>"] = ":m '<-2<CR>gv=gv",
-    ["<A-j>"] = ":m '>+1<CR>gv=gv",
-    ["<leader>y"] = '"1y`>"0p',
-
-    ["x"] = '"_x',
-    ["c"] = '"_c',
-  },
-
-  x = {
-    ["<leader>y"] = '"1y`>"0p',
-  },
-
-  all = {},
-}
-
-utils.apply_keymaps({
-  n = keymaps.n,
-  i = keymaps.i,
-  v = keymaps.v,
-  x = keymaps.x,
-})
-
-for _, mode in ipairs({ "n", "i", "v" }) do
-  utils.apply_keymaps({ [mode] = keymaps.all })
-end
+map("x", "<leader>y", '"1y`>"0p', opts)
