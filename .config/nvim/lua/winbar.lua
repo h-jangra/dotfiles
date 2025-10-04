@@ -29,15 +29,12 @@ _G.status_line = function()
   set_hl("StlMode", mode.fg, mode.bg, true)
   set_hl("StlModeAlt", mode.bg, "#313244")
   set_hl("StlNormal", "#cdd6f4", "#313244")
-  set_hl("StlModified", "#f38ba8", "#313244", true) -- Modified file color
   set_hl("StlGit", "#f9e2af", "#313244")
   set_hl("StlSize", "#313244", "#cdd6f4")
 
   -- File info
   local filename = vim.fn.expand('%:t')
   if filename == "" then filename = "[No Name]" end
-
-  local file_hl = vim.bo.modified and "StlModified" or "StlNormal"
   if vim.bo.modified then filename = filename .. " ●" end
 
   local icon = icons.get(vim.bo.filetype) or ""
@@ -67,7 +64,7 @@ _G.status_line = function()
   return table.concat({
     "%#StlMode#", " " .. mode.name .. " ",
     "%#StlModeAlt#", sep.right .. " ",
-    "%#" .. file_hl .. "#", icon .. " " .. filename .. " ",
+    "%#StlNormal#", icon .. filename .. " ",
     git ~= "" and "%#StlGit#" .. git .. " " or "",
     "%=", -- right align
     "%#StlNormal#", " " .. line .. ":" .. col .. " ",
@@ -84,3 +81,4 @@ vim.o.statusline = "%!v:lua.status_line()"
 vim.api.nvim_create_autocmd("ModeChanged", {
   callback = function() vim.cmd("redrawstatus") end,
 })
+

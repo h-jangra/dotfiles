@@ -3,8 +3,7 @@ require("lsp")
 require("plugins")
 require("autocmds")
 require("status")
-require("autopairs")
-require("tabline")
+-- require("winbar")
 
 local opt = vim.opt
 local g = vim.g

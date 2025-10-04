@@ -14,7 +14,6 @@ vim.pack.add({
   { src = "https://github.com/windwp/nvim-ts-autotag" },
   { src = "https://github.com/williamboman/mason-lspconfig.nvim" },
   { src = "https://github.com/voldikss/vim-floaterm" },
-  { src = "https://github.com/nvim-tree/nvim-web-devicons.git" },
 })
 
 require("nvim-treesitter.configs").setup({ ensure_installed = { "typescript", "javascript" }, highlight = { enable = true } })
@@ -24,13 +23,13 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 require("flash").setup()
 require("which-key").setup()
--- require("mini.surround").setup()
--- require("mini.ai").setup()
--- require("mini.tabline").setup()
+require("mini.surround").setup()
+require("mini.ai").setup()
 require("mini.icons").setup()
--- require("mini.pairs").setup()
--- require("mini.hipatterns").setup()
--- require("mini.trailspace").setup()
+require("mini.pairs").setup()
+require("mini.hipatterns").setup()
+-- require("mini.tabline").setup()
+require("mini.trailspace").setup()
 
 require("liveserver").setup()
 
@@ -74,4 +73,3 @@ require('nvim-ts-autotag').setup({
 })
 
 vim.keymap.set("n", "<cr>", function() require("flash").jump() end, { desc = "Flash" })
-
