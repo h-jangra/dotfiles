@@ -3,7 +3,7 @@ require("lsp")
 require("plugins")
 require("autocmds")
 require("status")
--- require("winbar")
+require("bufferline")
 
 local opt = vim.opt
 local g = vim.g
@@ -19,17 +19,17 @@ opt.linebreak = true
 opt.showmode = false
 opt.conceallevel = 0
 
-opt.expandtab = true   -- Use spaces instead of tabs
-opt.shiftwidth = 2     -- Indent width
-opt.tabstop = 2        -- Tab width
-opt.softtabstop = 2    -- Backspace removes 2 spaces
-opt.smartindent = true -- Smart auto-indenting
-opt.shiftround = true  -- Round indent to multiple of shiftwidth
+opt.expandtab = true
+opt.shiftwidth = 2
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.smartindent = true
+opt.shiftround = true
 
-opt.ignorecase = true  -- Ignore case in search
-opt.smartcase = true   -- Override ignorecase if search has uppercase
-opt.hlsearch = false   -- Don't highlight search results
-opt.incsearch = true   -- Incremental search
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = false
+opt.incsearch = true
 
 opt.undofile = true
 opt.undodir = vim.fn.stdpath("data") .. "/undo"
