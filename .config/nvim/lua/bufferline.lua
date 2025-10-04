@@ -64,7 +64,7 @@ function _G.winbar_buffers()
     end
   end
 
-  return table.concat(parts) -- optional separator
+  return table.concat(parts)
 end
 
 vim.o.winbar = "%{%v:lua.winbar_buffers()%}"
