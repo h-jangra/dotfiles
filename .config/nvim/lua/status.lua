@@ -1,5 +1,3 @@
-local M = {}
-
 local modes = {
   n     = { fg = "#1e1e2e", bg = "#89b4fa", name = "NORMAL" },
   i     = { fg = "#1e1e2e", bg = "#a6e3a1", name = "INSERT" },

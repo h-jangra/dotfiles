@@ -3,6 +3,8 @@ require("lsp")
 require("plugins")
 require("autocmds")
 require("status")
+require("autopairs")
+require("tabline")
 
 local opt = vim.opt
 local g = vim.g
@@ -25,10 +27,10 @@ opt.softtabstop = 2    -- Backspace removes 2 spaces
 opt.smartindent = true -- Smart auto-indenting
 opt.shiftround = true  -- Round indent to multiple of shiftwidth
 
-opt.ignorecase = true -- Ignore case in search
-opt.smartcase = true  -- Override ignorecase if search has uppercase
-opt.hlsearch = false  -- Don't highlight search results
-opt.incsearch = true  -- Incremental search
+opt.ignorecase = true  -- Ignore case in search
+opt.smartcase = true   -- Override ignorecase if search has uppercase
+opt.hlsearch = false   -- Don't highlight search results
+opt.incsearch = true   -- Incremental search
 
 opt.undofile = true
 opt.undodir = vim.fn.stdpath("data") .. "/undo"
@@ -39,8 +41,8 @@ opt.autoread = true
 
 opt.termguicolors = true
 opt.pumheight = 10 -- Max items in popup menu
-opt.pumblend = 10 -- Transparent popup menu
-opt.winblend = 0 -- No transparency for floating windows
+opt.pumblend = 10  -- Transparent popup menu
+opt.winblend = 0   -- No transparency for floating windows
 opt.laststatus = 3
 opt.showmatch = true
 opt.splitbelow = true
@@ -64,5 +66,3 @@ g.netrw_winsize = 25
 
 vim.cmd.colorscheme("vague")
 vim.diagnostic.config({ virtual_lines = { current_line = true }, })
-
-
