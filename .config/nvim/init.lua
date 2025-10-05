@@ -1,4 +1,3 @@
--- require("lsp").setup()
 require("autocmds")
 require("keymaps")
 require("plugins")
