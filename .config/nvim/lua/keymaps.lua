@@ -46,7 +46,7 @@ map("n", "<C-j>", function()
   vim.diagnostic.jump({ count = 1 })
 end, opts)
 
--- Snacks / Pickers
+-- Snacks
 map("n", "<leader><leader>", "<cmd>lua Snacks.picker.files()<cr>", opts)
 map("n", "<leader>e", "<cmd>lua Snacks.explorer()<cr>", opts)
 map("n", "<leader>sp", "<cmd>lua Snacks.picker()<cr>", opts)
@@ -54,8 +54,17 @@ map("n", "<leader>sw", function() Snacks.picker.grep() end, { desc = "Grep Word"
 map("n", "<leader>n", "<cmd>lua Snacks.picker.notifications()<cr>", opts)
 
 -- LSP
-map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format" })
-map("n", "<leader>li", "g=G``", { desc = "Format" })
+map("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { desc = "LSP Format" })
+map("n", "<leader>li", "g=G``", { desc = "Indent file" })
+map("n", "<leader>cd", function()
+  local diags = vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
+  if #diags > 0 then
+    vim.fn.setreg("+", table.concat(vim.tbl_map(function(d) return d.message end, diags), "\n"))
+    vim.notify("Diagnostics copied", vim.log.levels.INFO)
+  else
+    vim.notify("No diagnostics", vim.log.levels.INFO)
+  end
+end, { desc = "Copy line diagnostics" })
 
 -- Find & replace
 map("n", "<leader>fr", function()

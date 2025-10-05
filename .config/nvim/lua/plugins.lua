@@ -1,9 +1,9 @@
 -- vim.pack.update()
 vim.pack.add({
   { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim.git" },
+  { src = "https://github.com/folke/flash.nvim" },
   { src = "https://github.com/Saghen/blink.cmp" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
-  { src = "https://github.com/folke/flash.nvim" },
   { src = "https://github.com/folke/snacks.nvim" },
   { src = "https://github.com/folke/which-key.nvim" },
   { src = "https://github.com/mason-org/mason.nvim" },
@@ -14,24 +14,21 @@ vim.pack.add({
   { src = "https://github.com/windwp/nvim-ts-autotag" },
   { src = "https://github.com/williamboman/mason-lspconfig.nvim" },
   { src = "https://github.com/voldikss/vim-floaterm" },
+  { src = "https://github.com/h-jangra/bare.min" },
 })
 
-require("nvim-treesitter.configs").setup({ ensure_installed = { "typescript", "javascript" }, highlight = { enable = true } })
+-- require("nvim-treesitter.configs").setup({ ensure_installed = { "typescript", "javascript" }, highlight = { enable = true } })
 require("vague").setup({ transparent = true })
 require("render-markdown").setup()
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("flash").setup()
 require("which-key").setup()
 require("mini.surround").setup()
 require("mini.ai").setup()
 require("mini.icons").setup()
 require("mini.pairs").setup()
 require("mini.hipatterns").setup()
--- require("mini.tabline").setup()
 require("mini.trailspace").setup()
-
-require("liveserver").setup()
 
 require("blink.cmp").setup({
   keymap = { preset = "default", ["<CR>"] = { "accept", "fallback" }, },

@@ -1,67 +1,44 @@
-require("keymaps")
-require("lsp")
-require("plugins")
+-- require("lsp").setup()
 require("autocmds")
-require("status")
-require("bufferline")
+require("keymaps")
+require("plugins")
+require("bare")
 
-local opt = vim.opt
-local g = vim.g
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.signcolumn = "yes"
+vim.opt.scrolloff = 8
+vim.opt.wrap = false
+vim.o.winborder = "rounded"
 
-opt.number = true
-opt.relativenumber = true
-opt.cursorline = true
-opt.signcolumn = "yes"
-opt.scrolloff = 8
-opt.sidescrolloff = 8
-opt.wrap = false
-opt.linebreak = true
-opt.showmode = false
-opt.conceallevel = 0
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.smartindent = true
 
-opt.expandtab = true
-opt.shiftwidth = 2
-opt.tabstop = 2
-opt.softtabstop = 2
-opt.smartindent = true
-opt.shiftround = true
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"
+vim.opt.backup = false
+vim.opt.swapfile = false
+vim.opt.autoread = true
 
-opt.ignorecase = true
-opt.smartcase = true
-opt.hlsearch = false
-opt.incsearch = true
+vim.opt.termguicolors = true
+vim.opt.laststatus = 3
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
-opt.undofile = true
-opt.undodir = vim.fn.stdpath("data") .. "/undo"
-opt.backup = false
-opt.writebackup = false
-opt.swapfile = false
-opt.autoread = true
+vim.opt.mouse = "a"
+vim.opt.clipboard = "unnamedplus"
 
-opt.termguicolors = true
-opt.pumheight = 10 -- Max items in popup menu
-opt.pumblend = 10  -- Transparent popup menu
-opt.winblend = 0   -- No transparency for floating windows
-opt.laststatus = 3
-opt.showmatch = true
-opt.splitbelow = true
-opt.splitright = true
-opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.updatetime = 50
 
-opt.mouse = "a"
-opt.clipboard = "unnamedplus"
-opt.virtualedit = "block"
-opt.formatoptions:remove({ "c", "r", "o" })
-
-opt.lazyredraw = false
-opt.synmaxcol = 240
-opt.updatecount = 100
-
-g.netrw_banner = 0
-g.netrw_liststyle = 3
-g.netrw_browse_split = 0
-g.netrw_altv = 1
-g.netrw_winsize = 25
+vim.g.netrw_banner = 0
+vim.g.netrw_browse_split = 0
+vim.g.netrw_liststyle = 3
+vim.g.netrw_winsize = 25
 
 vim.cmd.colorscheme("vague")
-vim.diagnostic.config({ virtual_lines = { current_line = true }, })
+vim.diagnostic.config({
+  virtual_lines = { current_line = true },
+})
