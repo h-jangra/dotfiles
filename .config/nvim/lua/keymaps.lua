@@ -47,11 +47,11 @@ map("n", "<C-j>", function()
 end, opts)
 
 -- Snacks
-map("n", "<leader><leader>", "<cmd>lua Snacks.picker.files()<cr>", opts)
-map("n", "<leader>e", "<cmd>lua Snacks.explorer()<cr>", opts)
-map("n", "<leader>sp", "<cmd>lua Snacks.picker()<cr>", opts)
-map("n", "<leader>sw", function() Snacks.picker.grep() end, { desc = "Grep Word" })
-map("n", "<leader>n", "<cmd>lua Snacks.picker.notifications()<cr>", opts)
+-- map("n", "<leader><leader>", "<cmd>lua Snacks.picker.files()<cr>", opts)
+-- map("n", "<leader>e", "<cmd>lua Snacks.explorer()<cr>", opts)
+-- map("n", "<leader>sp", "<cmd>lua Snacks.picker()<cr>", opts)
+-- map("n", "<leader>sw", function() Snacks.picker.grep() end, { desc = "Grep Word" })
+-- map("n", "<leader>n", "<cmd>lua Snacks.picker.notifications()<cr>", opts)
 
 -- LSP
 map("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { desc = "LSP Format" })

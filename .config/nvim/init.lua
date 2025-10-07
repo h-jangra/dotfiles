@@ -8,7 +8,7 @@ vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = "yes"
 vim.opt.scrolloff = 8
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.o.winborder = "rounded"
 
 vim.opt.expandtab = true
@@ -32,12 +32,30 @@ vim.opt.clipboard = "unnamedplus"
 
 vim.opt.updatetime = 50
 
-vim.g.netrw_banner = 0
-vim.g.netrw_browse_split = 0
-vim.g.netrw_liststyle = 3
-vim.g.netrw_winsize = 25
-
 vim.cmd.colorscheme("vague")
 vim.diagnostic.config({
   virtual_lines = { current_line = true },
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function()
+    vim.lsp.start({
+      name = "lua_ls",
+      cmd = { "lua-language-server" },
+      root_dir = vim.fs.dirname(vim.fs.find({ ".git" }, { upward = true })[1] or vim.loop.cwd()),
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+          workspace = {
+            library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
+          },
+          telemetry = { enable = false },
+        },
+      },
+    })
+  end,
 })
