@@ -7,15 +7,14 @@ vim.pack.add({
   "https://github.com/folke/which-key.nvim",
   "https://github.com/voldikss/vim-floaterm",
   "https://github.com/h-jangra/bare.min",
+  "https://github.com/prichrd/netrw.nvim",
 })
 require("bare")
 require("render-markdown").setup()
 require("which-key").setup()
 vim.keymap.set("n", "<cr>", function() require("flash").jump() end, { desc = "Flash" })
 
------------
--- Options
------------
+--____OPTIONS____
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
@@ -55,14 +54,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.cmd [[
-  highlight Pmenu guibg=#1e1e2e guifg=#cdd6f4
-  highlight PmenuSel guibg=#313244 guifg=#f5c2e7
-]]
-
------------
--- Keymaps
------------
+--____KEYMAPS___
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
