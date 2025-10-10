@@ -1,3 +1,4 @@
+vim.g.mapleader = " "
 -- vim.pack.update()
 vim.pack.add({
   "https://github.com/MeanderingProgrammer/render-markdown.nvim.git",
@@ -7,7 +8,7 @@ vim.pack.add({
   "https://github.com/voldikss/vim-floaterm",
   "https://github.com/h-jangra/bare.min",
 })
-require('bare')
+require("bare")
 require("render-markdown").setup()
 require("which-key").setup()
 vim.keymap.set("n", "<cr>", function() require("flash").jump() end, { desc = "Flash" })
@@ -54,15 +55,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- vim.cmd [[
---   highlight Pmenu guibg=#1e1e2e guifg=#cdd6f4
---   highlight PmenuSel guibg=#313244 guifg=#f5c2e7
--- ]]
+vim.cmd [[
+  highlight Pmenu guibg=#1e1e2e guifg=#cdd6f4
+  highlight PmenuSel guibg=#313244 guifg=#f5c2e7
+]]
 
+-----------
 -- Keymaps
 -----------
-vim.g.mapleader = " "
-
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
@@ -93,6 +93,7 @@ map("n", "<A-j>", ":m .+1<CR>==", opts)
 map("n", "<leader>a", "ggVG", opts)
 map("n", "<c-c>", "<cmd>%y+<cr>", opts)
 map("n", "x", '"_x', opts)
+map("x", "c", '"_c', opts)
 
 -- Buffers
 map("n", "<tab>", "<cmd>bnext<cr>", opts)
@@ -108,6 +109,7 @@ end, opts)
 
 map("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { desc = "LSP Format" })
 map("n", "<leader>li", "g=G``", { desc = "Indent file" })
+
 map("n", "<leader>cd", function()
   local diags = vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
   if #diags > 0 then
