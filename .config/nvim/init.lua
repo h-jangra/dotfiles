@@ -7,21 +7,25 @@ vim.pack.add({
   "https://github.com/folke/which-key.nvim",
   "https://github.com/voldikss/vim-floaterm",
   "https://github.com/h-jangra/bare.min",
-  "https://github.com/prichrd/netrw.nvim",
 })
 require("bare")
-require("render-markdown").setup()
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function() require("render-markdown").setup() end,
+})
+
 require("which-key").setup()
-vim.keymap.set("n", "<cr>", function() require("flash").jump() end, { desc = "Flash" })
+vim.keymap.set("n", "<cr>", function() require("flash").jump() end)
 
 --____OPTIONS____
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.cursorline = true
+-- vim.opt.cursorline = true
 vim.opt.signcolumn = "yes"
 vim.opt.scrolloff = 8
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.o.winborder = "rounded"
+vim.opt.shortmess:append("I") -- disable starter info
 
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
@@ -30,7 +34,7 @@ vim.opt.softtabstop = 2
 vim.opt.smartindent = true
 
 vim.opt.undofile = true
-vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.autoread = true
@@ -42,7 +46,11 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamedplus"
 
-vim.opt.updatetime = 50
+vim.opt.lazyredraw = true
+vim.opt.synmaxcol = 240
+vim.opt.updatetime = 200
+vim.opt.ttimeoutlen = 10
+vim.opt.mousescroll = "ver:5,hor:0"
 
 vim.diagnostic.config({
   virtual_text = { current_line = true }
@@ -62,7 +70,7 @@ local opts = { noremap = true, silent = true }
 map("n", "<esc>", "<cmd>noh<cr>", opts)
 
 map("n", "<leader>o", "<cmd>update<cr> :source<cr>", opts)
-map("n", "<leader>q", "<cmd>quit<cr>", opts)
+map("n", "<c-q>", "<cmd>quit<cr>", opts)
 map("n", "<leader>w", "<Esc><cmd>w<CR><cmd>lua vim.lsp.buf.format({ async = true })<CR>", { desc = "Save & Format" })
 map("n", "<C-s>", "<cmd>write<cr>", opts)
 
