@@ -59,54 +59,30 @@ cgit() {
   config push origin "$branch"
 }
 
-FNM_PATH="/home/hj/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$FNM_PATH:$PATH"
-  eval "`fnm env`"
-fi
-
-if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-	export TERM='gnome-256color'
-elif infocmp xterm-256color >/dev/null 2>&1; then
-	export TERM='xterm-256color'
-fi
-
 prompt_git() {
 	local s=''
 	local branchName=''
 
-	# Check if the current directory is in a Git repository.
 	git rev-parse --is-inside-work-tree &>/dev/null || return
 
-	# Check for what branch we’re on.
-	# Get the short symbolic ref. If HEAD isn’t a symbolic ref, get a
-	# tracking remote branch or tag. Otherwise, get the
-	# short SHA for the latest commit, or give up.
 	branchName="$(git symbolic-ref --quiet --short HEAD 2>/dev/null ||
 		git describe --all --exact-match HEAD 2>/dev/null ||
 		git rev-parse --short HEAD 2>/dev/null ||
 		echo '(unknown)')"
 
-	# Early exit for Chromium & Blink repo, as the dirty check takes too long.
-	# Thanks, @paulirish!
-	# https://github.com/paulirish/dotfiles/blob/dd33151f/.bash_prompt#L110-L123
 	repoUrl="$(git config --get remote.origin.url)"
 	if grep -q 'chromium/src.git' <<<"${repoUrl}"; then
 		s+='*'
 	else
-		# Check for uncommitted changes in the index.
 		if ! $(git diff --quiet --ignore-submodules --cached); then
 			s+='+'
 		fi
-		# Check for unstaged changes.
 		if ! $(git diff-files --quiet --ignore-submodules --); then
 			s+='!'
 		fi
-		# Check for untracked files.
 		if [ -n "$(git ls-files --others --exclude-standard)" ]; then
 			s+='?'
 		fi
-		# Check for stashed files.
 		if $(git rev-parse --verify refs/stash &>/dev/null); then
 			s+='$'
 		fi
@@ -173,20 +149,6 @@ export PS1
 PS2="\[${yellow}\]› \[${reset}\]"
 export PS2
 
-# Aliases
-alias cls='clear'
-alias c='clear'
-alias q='exit'
-
-# Navigation
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias ~='cd ~'
-alias home='cd ~'
-alias docs='cd ~/Documents'
-alias dl='cd ~/Downloads'
-
 if command -v exa >/dev/null 2>&1; then
   alias l='exa --classify --icons'
   alias la='exa -a --icons'
@@ -198,94 +160,15 @@ else
   alias la='ls -Ah'
   alias ll='ls -ahlF'
   alias lt='ls -lt'
-  alias ltr='ls -ltr'
 fi
-
-# Git
-alias g='git'
-alias gs='git status'
-alias ga='git add .'
-alias gc='git commit -m'
-alias gp='git push'
-alias gl='git pull'
-alias gb='git branch'
-alias gco='git checkout'
 
 # System
 alias update='sudo apt update && sudo apt upgrade'
-alias htop='htop'
-
-# Docker
-alias d='docker'
-alias dps='docker ps'
-alias dcu='docker compose up'
-alias dcd='docker compose down'
-
-# NPM/Yarn
-alias ni='npm install'
-alias nr='npm run'
-alias nid='npm install --save-dev'
-alias nu='npm update'
-alias ys='yarn start'
-alias yb='yarn build'
 
 # Neovim
-alias v='nvim'
-alias vim='nvim'
+alias e='nvim'
 
-# Misc
-alias pingg='ping google.com'
-alias path='echo $PATH'
-alias ip='curl ifconfig.me'
-
-
-# Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH"
-
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file"
-done
-unset file
-
-# Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
-
-# Append to the Bash history file, rather than overwriting it
 shopt -s histappend
-
-# Autocorrect typos in path names when using `cd`
 shopt -s cdspell
-
-# Enable some Bash 4 features when possible:
-# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
-# * Recursive globbing, e.g. `echo **/*.txt`
-for option in autocd globstar; do
-	shopt -s "$option" 2>/dev/null
-done
-
-# Add tab completion for many Bash commands
-if which brew &>/dev/null && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
-	# Ensure existing Homebrew v1 completions continue to work
-	export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d"
-	source "$(brew --prefix)/etc/profile.d/bash_completion.sh"
-elif [ -f /etc/bash_completion ]; then
-	source /etc/bash_completion
-fi
-
-# Enable tab completion for `g` by marking it as an alias for `git`
-if type _git &>/dev/null; then
-	complete -o default -o nospace -F _git g
-fi
-
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
-
-# Add tab completion for `defaults read|write NSGlobalDomain`
-# You could just use `-g` instead, but I like being explicit
-complete -W "NSGlobalDomain" defaults
-
-# Add `killall` tab completion for common apps
-complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
