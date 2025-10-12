@@ -119,7 +119,6 @@ end, { desc = "Find & Replace" })
 
 -- Diagnostics
 map("n", "<C-j>", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next Diagnostic" })
-map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show Diagnostic Float" })
 map("n", "<leader>cd", function()
   local diags = vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
   if #diags > 0 then
