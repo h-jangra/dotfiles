@@ -98,7 +98,7 @@ end
 alias update='sudo pacman -Syu'
 
 # Neovim
-alias e='nvim'
+alias n='nvim'
 alias hx='helix'
 
 # --- PATH ---
