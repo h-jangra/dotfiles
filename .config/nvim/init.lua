@@ -1,13 +1,15 @@
 vim.g.mapleader = " "
--- vim.pack.update()
 vim.pack.add({
   "https://github.com/chomosuke/typst-preview.nvim",
   "https://github.com/h-jangra/bare.min",
 })
 require("bare")
 -------------------------------------------------
--- Options
--------------------------------------------------
+-- transparency
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+
 local opt = vim.opt
 
 opt.number = true
@@ -39,14 +41,12 @@ opt.autoread = true
 opt.lazyredraw = true
 opt.synmaxcol = 240
 opt.updatetime = 200
-opt.ttimeoutlen = 10
+-- opt.timeoutlen = 10
 opt.mousescroll = "ver:5,hor:0"
 
 -- UI
 opt.winborder = "rounded"
 
--------------------------------------------------
--- Diagnostics
 -------------------------------------------------
 vim.diagnostic.config({
   virtual_text = { current_line = true },
@@ -54,16 +54,12 @@ vim.diagnostic.config({
 })
 
 -------------------------------------------------
--- Autocmds
--------------------------------------------------
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
   end,
 })
 
--------------------------------------------------
--- Keymaps
 -------------------------------------------------
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
