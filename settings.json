@@ -1,0 +1,65 @@
+// %LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+
+    "actions": [
+        { "id": "User.copy", "command": { "action": "copy", "singleLine": false } },
+        { "id": "User.paste", "command": "paste" },
+        { "id": "User.splitPane", "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" } },
+        { "id": "User.find", "command": "find" }
+    ],
+
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+
+    "keybindings": [
+        { "id": "User.copy", "keys": "ctrl+c" },
+        { "id": "User.paste", "keys": "ctrl+v" },
+        { "id": "User.find", "keys": "ctrl+shift+f" },
+        { "id": "User.splitPane", "keys": "alt+shift+d" }
+    ],
+
+    "launchMode": "maximized",
+
+    "profiles": {
+        "defaults": {
+            "colorScheme": "Catppuccin Macchiato",
+            "font": {
+                "face": "AdwaitaMono Nerd Font"
+            }
+        },
+
+        "list": [
+        ]
+    },
+
+    "schemes": [
+        {
+            "name": "Catppuccin Macchiato",
+            "background": "#24273A",
+            "foreground": "#CAD3F5",
+            "cursorColor": "#F5BDE6",
+            "selectionBackground": "#363A4F",
+
+            "black": "#181926",
+            "red": "#ED8796",
+            "green": "#A6DA95",
+            "yellow": "#EED49F",
+            "blue": "#8AADF4",
+            "purple": "#C6A0F6",
+            "cyan": "#8BD5CA",
+            "white": "#CAD3F5",
+
+            "brightBlack": "#494D64",
+            "brightRed": "#EE99A0",
+            "brightGreen": "#A6DA95",
+            "brightYellow": "#F5A97F",
+            "brightBlue": "#8AADF4",
+            "brightPurple": "#B7BDF8",
+            "brightCyan": "#91D7E3",
+            "brightWhite": "#F4DBD6"
+        }
+    ],
+
+    "themes": []
+}
