@@ -172,3 +172,10 @@ export PATH="$HOME/bin:$PATH"
 shopt -s nocaseglob
 shopt -s histappend
 shopt -s cdspell
+
+_history_complete() {
+    [[ ${#READLINE_LINE} -gt 1 ]] || { printf "\t"; return; }
+    local match=$(history | tail -n 100 | sed 's/^ *[0-9]* *//' | grep "^$READLINE_LINE" | grep -v "^$READLINE_LINE$" | tail -n 1)
+    [[ -n "$match" ]] && READLINE_LINE="$match" && READLINE_POINT=${#match} || printf "\t"
+}
+bind -x '"\t": _history_complete'
