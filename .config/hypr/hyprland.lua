@@ -1,4 +1,5 @@
-require("config.animations.dusky")
+require("config.autostart")
+require("config.animations.fast")
 require("config.colors")
 require("config.decorations")
 require("config.variables")
