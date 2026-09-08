@@ -1,7 +1,12 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
+set -gx PATH (npm prefix -g)/bin $PATH
 
 set -Ux LANG en_US.UTF-8
 set -Ux LC_ALL en_US.UTF-8
+set -gx PATH /usr/lib/emscripten $PATH
+
+export EDITOR=nvim
+export TERMINAL=foot
 
 function fish_title
     set -l cwd (basename "$PWD")
