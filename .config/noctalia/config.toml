@@ -1,25 +1,21 @@
-[accessibility]
-ui_scale = 1.2
+config_version = 14
 
 [bar.default]
-background_opacity = 0.59999998658895493
+background_opacity = 0.0
 capsule = true
+capsule_fill = "#242436"
 capsule_group = []
 capsule_radius = 4
 center = [ "workspaces" ]
-concave_edge_corners = false
 end = [ "tray", "bluetooth", "network", "volume", "battery", "session" ]
+font_family = "Maple Mono NF"
 margin_edge = 0
 margin_ends = 0
-radius = 5
-radius_bottom_left = 5
-radius_bottom_right = 5
-radius_top_left = 0
-radius_top_right = 0
 scale = 1.1000000000000001
-shadow = false
-start = [ "clock", "sysmon_3", "widget", "widget_2" ]
-thickness = 30
+start = [ "clock", "sysmon_3", "widget_2", "widget_3" ]
+widget_spacing = 3
+
+[calendar]
 
 [control_center.calendar]
 show_events_card = false
@@ -51,8 +47,8 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
     box_height = 196.0
     box_width = 810.0
-    cx = 800.0
-    cy = 672.5
+    cx = 800.00006103515625
+    cy = 672.50006103515625
     output = "eDP-1"
     placement_height = 900.0
     placement_width = 1600.0
@@ -75,6 +71,9 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
         show_unlock_hint = true
         show_weather = true
 
+[osd.kinds]
+privacy = false
+
 [plugin_settings."h-jangra/keyviz"]
 badge_style = "accent"
 display_mode = "overlay"
@@ -85,6 +84,9 @@ overlay_height = 32
 overlay_position = "bottom_left"
 overlay_width = 160
 
+[plugin_settings."h-jangra/region-recorder"]
+audio_source = "both"
+
 [plugin_settings."hj/aur"]
 helper = "yay"
 
@@ -93,7 +95,8 @@ helper = "yay"
 panel_placement = "attached"
 
 [plugins]
-enabled = [ "alexander/screen-toolkit", "omarchy/aur", "h-jangra/keyviz", "hj/aur" ]
+auto_update = "all"
+enabled = [ "omarchy/aur", "hj/aur", "h-jangra/region-recorder", "h-jangra/keyviz" ]
 
     [[plugins.source]]
     kind = "git"
@@ -107,32 +110,29 @@ enabled = [ "alexander/screen-toolkit", "omarchy/aur", "h-jangra/keyviz", "hj/au
 
     [[plugins.source]]
     kind = "path"
-    location = "/home/hj/Projects/noctalia-plugins"
-    name = "my-plugins"
+    location = "~/Projects/noc"
+    name = "local"
 
 [shell]
+button_borders = false
+card_borders = false
 clipboard_image_action_command = "satty -f -"
+corner_radius_scale = 0.5000000074505806
+input_borders = false
 launch_apps_as_systemd_services = true
 polkit_agent = true
+popup_borders = false
 settings_show_advanced = true
 
     [shell.greeter_sync]
     auto_sync = true
 
-    [shell.launcher]
-    app_grid = true
-    categories = false
-
     [shell.panel]
-    borders = false
     clipboard_placement = "attached"
+    list_item_background = true
     open_near_click_control_center = true
     session_placement = "floating"
     session_position = "center"
-    transparency_mode = "soft"
-
-    [shell.screen_corners]
-    size = 8
 
     [shell.screenshot]
     copy_to_clipboard = false
@@ -140,71 +140,42 @@ settings_show_advanced = true
     pipe_to_command = true
     save_to_file = false
 
-    [[shell.session.actions]]
-    action = "lock"
-    countdown_seconds = 0.0
-    enabled = true
-    shortcut = "1"
-    variant = "default"
-
-    [[shell.session.actions]]
-    action = "logout"
-    countdown_seconds = 0.0
-    enabled = true
-    shortcut = "2"
-    variant = "default"
-
-    [[shell.session.actions]]
-    action = "lock_and_suspend"
-    countdown_seconds = 3.0
-    enabled = true
-    shortcut = "3"
-    variant = "default"
-
-    [[shell.session.actions]]
-    action = "reboot"
-    countdown_seconds = 3.0
-    enabled = true
-    shortcut = "4"
-    variant = "default"
-
-    [[shell.session.actions]]
-    action = "shutdown"
-    countdown_seconds = 3.0
-    enabled = true
-    shortcut = "5"
-    variant = "destructive"
-
 [system.monitor]
 gpu_poll_seconds = 2
 
 [theme]
-builtin = "Nord"
+builtin = "Tokyo-Night"
 community_palette = "Oxocarbon"
+custom_palette = "MyPalette"
 mode = "dark"
-source = "builtin"
-wallpaper_scheme = "m3-tonal-spot"
+wallpaper_scheme = "m3-content"
 
     [theme.templates]
     builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "kitty", "qt", "alacritty" ]
+    community_ids = [ "zen-browser" ]
+
+[wallpaper.automation]
+enabled = true
 
 [wallpaper.default]
-path = "/home/hj/Pictures/Wallpapers/wallhaven-d8orko.png"
+path = "/home/hj/Pictures/Wallpapers/wallhaven-vpd2jp.jpg"
 
 [wallpaper.last]
-path = "/home/hj/Pictures/Wallpapers/wallhaven-d8orko.png"
+path = "/home/hj/Pictures/Wallpapers/wallhaven-vpd2jp.jpg"
 
 [wallpaper.monitors.eDP-1]
-path = "/home/hj/Pictures/Wallpapers/wallhaven-d8orko.png"
+path = "/home/hj/Pictures/Wallpapers/wallhaven-vpd2jp.jpg"
 
 [widget.battery]
+color = "#79BFCE"
 hide_when_full = true
 
 [widget.bluetooth]
-hide_when_no_connected_device = true
+color = "#B192DA"
+hide_when_no_connected_device = false
 
 [widget.clock]
-color = "secondary"
+color = "#F5C2E7"
 format = "{:%a %-I:%M %p}"
 tooltip_format = "{:%A · %B %d, %Y}"
 
@@ -216,13 +187,13 @@ hide_when_no_media = true
 title_scroll = "on_hover"
 
 [widget.network]
-color = "secondary"
+color = "#F9E2AF"
 
 [widget.notifications]
 color = "secondary"
 
 [widget.session]
-color = "error"
+color = "#F38BA7"
 
 [widget.spacer_1]
 type = "spacer"
@@ -234,6 +205,7 @@ stat = "gpu_temp"
 type = "sysmon"
 
 [widget.sysmon_3]
+color = "#CBA6F7"
 glyph = "cpu-2"
 stat = "ram_used"
 type = "sysmon"
@@ -247,18 +219,23 @@ capsule = true
 capsule_fill = "on_secondary"
 
 [widget.volume]
-color = "secondary"
-
-[widget.widget]
-type = "alexander/screen-toolkit:widget"
+color = "#EBA0AC"
 
 [widget.widget_2]
 type = "h-jangra/keyviz:widget"
+
+[widget.widget_3]
+type = "h-jangra/region-recorder:widget"
 
 [widget.workspaces]
 active_pill_size = 2.5
 capsule = true
 capsule_fill = "on_primary"
+empty_color = "#89DCEB"
+focused_color = "#B4BEFE"
 inactive_pill_size = 1.0
+occupied_color = "#B090D7"
 pill_scale = 0.80000000000000004
 show_labels = false
+urgent_color = "#D894A1"
+
